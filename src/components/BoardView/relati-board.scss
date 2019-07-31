@@ -1,0 +1,15 @@
+.relati-board {
+  & {
+    position: relative;
+  }
+
+  svg,
+  div {
+    position: absolute;
+  }
+
+  div {
+    width: 100%;
+    height: 100%;
+  }
+}

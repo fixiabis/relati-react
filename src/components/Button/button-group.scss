@@ -1,0 +1,12 @@
+.button-group {
+  & {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+  }
+
+  button {
+    margin: 0px 25px;
+  }
+}
