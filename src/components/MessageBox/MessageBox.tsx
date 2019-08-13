@@ -1,10 +1,10 @@
-import React from 'react';
 import './message-box.scss';
+import React from 'react';
 import { ButtonGroup, Button } from '../Button';
-import { MessageBoxConfig } from './';
+import { MessageBoxConfig } from '../MessageBox';
 
 type MessageBoxProps = MessageBoxConfig;
-type MessageBoxState = MessageBoxConfig;
+type MessageBoxState = MessageBoxConfig & { initiative?: boolean };
 
 class MessageBox extends React.Component<MessageBoxProps, MessageBoxState> {
   constructor(props: MessageBoxProps) {
@@ -12,29 +12,27 @@ class MessageBox extends React.Component<MessageBoxProps, MessageBoxState> {
     this.state = { ...props };
   }
 
-  componentWillReceiveProps(props: MessageBoxProps) {
-    this.setState({ ...props });
-  }
-
-  userResponse(result: boolean) {
-    this.setState({ show: false });
-    this.state.onUserResponse && this.state.onUserResponse(result);
+  static getDerivedStateFromProps(props: MessageBoxProps, state: MessageBoxState) {
+    if (state.initiative) {
+      delete state.initiative;
+      return state;
+    } else return { ...props };
   }
 
   render() {
-    if (!this.state.show) return <></>;
+    if (this.state.show === false) return <></>;
 
-    var buttonGroup;
+    var controls;
 
     switch (this.state.type) {
-      case "yorn": buttonGroup = (
+      case 'yorn': controls = (
         <ButtonGroup>
           <Button icon="accept" onClick={e => this.userResponse(true)}></Button>
           <Button icon="reject" onClick={e => this.userResponse(false)}></Button>
         </ButtonGroup>
       ); break;
 
-      case "hint": buttonGroup = (
+      case 'hint': controls = (
         <ButtonGroup>
           <Button icon="verify" onClick={e => this.userResponse(true)}></Button>
         </ButtonGroup>
@@ -46,10 +44,15 @@ class MessageBox extends React.Component<MessageBoxProps, MessageBoxState> {
         <div className="message-box">
           <div className={`message-icon ${this.state.icon}`}></div>
           <div className="message-text">{this.state.text}</div>
-          {buttonGroup}
+          {controls}
         </div>
       </div>
     );
+  }
+
+  userResponse(result: boolean) {
+    this.setState({ show: false, initiative: true });
+    this.props.onUserResponse && this.props.onUserResponse(result);
   }
 }
 

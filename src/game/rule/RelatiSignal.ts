@@ -1,9 +1,8 @@
-import { RelatiRouteType, RelatiGrid } from "../RelatiDefs";
+import { RelatiBoard, RelatiRouteType, RelatiGrid } from "../RelatiDefs";
 import RelatiRole from "../RelatiRole";
 import RelatiRouter from "./RelatiRouter";
-import RelatiGame from "../RelatiGame";
 
-function destory({ board }: RelatiGame) {
+function interrupt(board: RelatiBoard) {
     for (let { body: role } of board.grids) {
         if (role) {
             role.lost("repeater");
@@ -11,7 +10,7 @@ function destory({ board }: RelatiGame) {
     }
 }
 
-function restore({ board, routeType }: RelatiGame) {
+function recovery(board: RelatiBoard, routeType: RelatiRouteType) {
     for (let { body: role } of board.grids) {
         if (role && role.is("launcher")) {
             relati(role, routeType);
@@ -23,8 +22,8 @@ function relati(role: RelatiRole, routeType: RelatiRouteType) {
     if (role.is("repeater")) return;
     role.gain("repeater");
 
-    let traces: RelatiGrid[][] = RelatiRouter.trace(
-        role.grid, routeType, role.symbol, ["receiver"]
+    let traces: RelatiGrid[][] = RelatiRouter.getRoutes(
+        routeType, role.grid, role.symbol, ["receiver"]
     );
 
     for (let [{ body: role }] of traces) {
@@ -32,4 +31,4 @@ function relati(role: RelatiRole, routeType: RelatiRouteType) {
     }
 }
 
-export default { destory, restore };
+export default { interrupt, recovery };

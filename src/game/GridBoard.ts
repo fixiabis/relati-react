@@ -92,7 +92,7 @@ export class GridBoard<GridBody> {
      * 取得棋盤格
      * @param x X座標
      * @param y Y座標
-     * @returns 棋盤格
+     * @return 棋盤格或空值
      */
     public getGrid(x: number, y: number): Grid<GridBody> | null {
         if (
@@ -138,10 +138,28 @@ export class Grid<GridBody> {
      * 取得棋盤格
      * @param direction 相對位置(方向)
      * @see GridDirection
-     * @returns 棋盤格
+     * @return 棋盤格或空值
      */
-    public getGrid(direction: number): Grid<GridBody> | null
-    public getGrid(direction: GridDirection): Grid<GridBody> | null
+    public getGrid(direction: GridDirection): Grid<GridBody> | null;
+
+    /**
+     * 取得棋盤格
+     * @param direction 相對位置(方向)，採用16進制，分別為F(Y - 1), B(Y + 1), R(X + 1), L(X - 1)
+     * @example
+     * var direction = 0x8050; // == (Y - 8, X + 5);
+     * @return 棋盤格或空值
+     */
+    public getGrid(direction: number): Grid<GridBody> | null;
+
+    /**
+     * 取得棋盤格
+     * @param f 相對位置，為-Y的移動單位
+     * @param b 相對位置，為+Y的移動單位
+     * @param r 相對位置，為+X的移動單位
+     * @param l 相對位置，為-X的移動單位
+     * @return 棋盤格或空值
+     */
+    public getGrid(f: number, b: number, r: number, l: number): Grid<GridBody> | null;
     public getGrid(f: number, b?: number, r?: number, l?: number): Grid<GridBody> | null {
         if (b === undefined || r === undefined || l === undefined) {
             let direction = f;

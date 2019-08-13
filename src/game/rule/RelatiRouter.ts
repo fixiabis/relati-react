@@ -47,102 +47,96 @@ const REMOTE_STABLE_ROUTES = [
     [BLL, BL, L]
 ];
 
-function allow(grid: RelatiGrid, routeType: RelatiRouteType, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
-    switch (routeType) {
-        case "common":
-            for (let i = 0; i < 24; i++) {
-                let targetGrid = grid.getGrid(REMOTE_STABLE_ROUTES[i][0]);
-                let middleGrid1 = grid.getGrid(REMOTE_STABLE_ROUTES[i][1]) as RelatiGrid;
-                let middleGrid2 = grid.getGrid(REMOTE_STABLE_ROUTES[i][2]) as RelatiGrid;
+function hasRoutes(routeType: RelatiRouteType, grid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
+    if (routeType === "common") {
+        for (let i = 0; i < 24; i++) {
+            let targetGrid = grid.getGrid(REMOTE_STABLE_ROUTES[i][0]);
+            let middleGrid1 = grid.getGrid(REMOTE_STABLE_ROUTES[i][1]) as RelatiGrid;
+            let middleGrid2 = grid.getGrid(REMOTE_STABLE_ROUTES[i][2]) as RelatiGrid;
 
-                if (
-                    targetGrid &&
-                    targetGrid.body &&
-                    targetGrid.body.symbol === symbol &&
-                    targetGrid.body.is(statusList, "any") &&
-                    !middleGrid1.body &&
-                    !middleGrid2.body
-                ) return true;
-            }
+            if (
+                targetGrid &&
+                targetGrid.body &&
+                targetGrid.body.symbol === symbol &&
+                targetGrid.body.is(statusList, "any") &&
+                !middleGrid1.body &&
+                !middleGrid2.body
+            ) return true;
+        }
 
-            for (let i = 0; i < 8; i++) {
-                let targetGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][0]);
-                let middleGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][1]) as RelatiGrid;
+        for (let i = 0; i < 8; i++) {
+            let targetGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][0]);
+            let middleGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][1]) as RelatiGrid;
 
-                if (
-                    targetGrid &&
-                    targetGrid.body &&
-                    targetGrid.body.symbol === symbol &&
-                    targetGrid.body.is(statusList, "any") &&
-                    !middleGrid.body
-                ) return true;
-            }
+            if (
+                targetGrid &&
+                targetGrid.body &&
+                targetGrid.body.symbol === symbol &&
+                targetGrid.body.is(statusList, "any") &&
+                !middleGrid.body
+            ) return true;
+        }
+    }
 
-        // falls through
-        case "normal":
-            for (let i = 0; i < 8; i++) {
-                let targetGrid = grid.getGrid(NORMAL_ROUTES[i]);
+    for (let i = 0; i < 8; i++) {
+        let targetGrid = grid.getGrid(NORMAL_ROUTES[i]);
 
-                if (
-                    targetGrid &&
-                    targetGrid.body &&
-                    targetGrid.body.symbol === symbol &&
-                    targetGrid.body.is(statusList, "any")
-                ) return true;
-            }
+        if (
+            targetGrid &&
+            targetGrid.body &&
+            targetGrid.body.symbol === symbol &&
+            targetGrid.body.is(statusList, "any")
+        ) return true;
     }
 
     return false;
 }
 
-function trace(grid: RelatiGrid, routeType: RelatiRouteType, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
+function getRoutes(routeType: RelatiRouteType, grid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
     let routes: RelatiGrid[][] = [];
 
-    switch (routeType) {
-        case "common":
-            for (let i = 0; i < 24; i++) {
-                let targetGrid = grid.getGrid(REMOTE_STABLE_ROUTES[i][0]);
-                let middleGrid1 = grid.getGrid(REMOTE_STABLE_ROUTES[i][1]) as RelatiGrid;
-                let middleGrid2 = grid.getGrid(REMOTE_STABLE_ROUTES[i][2]) as RelatiGrid;
+    if (routeType === "common") {
+        for (let i = 0; i < 24; i++) {
+            let targetGrid = grid.getGrid(REMOTE_STABLE_ROUTES[i][0]);
+            let middleGrid1 = grid.getGrid(REMOTE_STABLE_ROUTES[i][1]) as RelatiGrid;
+            let middleGrid2 = grid.getGrid(REMOTE_STABLE_ROUTES[i][2]) as RelatiGrid;
 
-                if (
-                    targetGrid &&
-                    targetGrid.body &&
-                    targetGrid.body.symbol === symbol &&
-                    targetGrid.body.is(statusList, "any") &&
-                    !middleGrid1.body &&
-                    !middleGrid2.body
-                ) routes.push([targetGrid, middleGrid1, middleGrid2]);
-            }
+            if (
+                targetGrid &&
+                targetGrid.body &&
+                targetGrid.body.symbol === symbol &&
+                targetGrid.body.is(statusList, "any") &&
+                !middleGrid1.body &&
+                !middleGrid2.body
+            ) routes.push([targetGrid, middleGrid1, middleGrid2]);
+        }
 
-            for (let i = 0; i < 8; i++) {
-                let targetGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][0]);
-                let middleGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][1]) as RelatiGrid;
+        for (let i = 0; i < 8; i++) {
+            let targetGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][0]);
+            let middleGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][1]) as RelatiGrid;
 
-                if (
-                    targetGrid &&
-                    targetGrid.body &&
-                    targetGrid.body.symbol === symbol &&
-                    targetGrid.body.is(statusList, "any") &&
-                    !middleGrid.body
-                ) routes.push([targetGrid, middleGrid]);
-            }
+            if (
+                targetGrid &&
+                targetGrid.body &&
+                targetGrid.body.symbol === symbol &&
+                targetGrid.body.is(statusList, "any") &&
+                !middleGrid.body
+            ) routes.push([targetGrid, middleGrid]);
+        }
+    }
 
-        // falls through
-        case "normal":
-            for (let i = 0; i < 8; i++) {
-                let targetGrid = grid.getGrid(NORMAL_ROUTES[i]);
+    for (let i = 0; i < 8; i++) {
+        let targetGrid = grid.getGrid(NORMAL_ROUTES[i]);
 
-                if (
-                    targetGrid &&
-                    targetGrid.body &&
-                    targetGrid.body.symbol === symbol &&
-                    targetGrid.body.is(statusList, "any")
-                ) routes.push([targetGrid]);
-            }
+        if (
+            targetGrid &&
+            targetGrid.body &&
+            targetGrid.body.symbol === symbol &&
+            targetGrid.body.is(statusList, "any")
+        ) routes.push([targetGrid]);
     }
 
     return routes;
 }
 
-export default { allow, trace };
+export default { hasRoutes, getRoutes };
