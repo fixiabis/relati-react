@@ -23,6 +23,10 @@ class GamePage extends React.Component<any, GamePageState> {
     console.log(this.game);
   }
 
+  hideMessageBox() {
+    this.setState({ messageBoxConfig: { show: false } });
+  }
+
   confirmSwitchPathTo(pathName: string) {
     this.setState({
       messageBoxConfig: {
@@ -30,7 +34,10 @@ class GamePage extends React.Component<any, GamePageState> {
         text: '確認離開',
         show: true,
         type: 'yorn',
-        onUserResponse: confirm => confirm && this.switchPathTo(pathName)
+        onUserResponse: confirm => {
+          if (confirm) this.switchPathTo(pathName);
+          else this.hideMessageBox();
+        }
       }
     });
   }

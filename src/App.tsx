@@ -4,7 +4,7 @@ import { Route, HashRouter as Router } from 'react-router-dom';
 
 import { MainPage } from './pages/MainPage';
 import { GamePage } from './pages/GamePage';
-// import { HelpPage } from './components/HelpPage';
+import { HelpPage } from './pages/HelpPage';
 
 class App extends React.Component {
   render() {
@@ -12,7 +12,7 @@ class App extends React.Component {
       <Router>
         <Route path="/(main|menu|home|)" exact component={MainPage} />
         <Route path="/(game|play)" component={GamePage} />
-        {/* <Route path="/help" component={HelpPage} /> */}
+        <Route path="/help" component={HelpPage} />
       </Router>
     );
   }
