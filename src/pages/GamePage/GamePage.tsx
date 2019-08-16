@@ -2,7 +2,7 @@ import './game-page.scss';
 import React from 'react';
 import { Redirect } from 'react-router';
 import { Page } from '../../components/Page';
-import { Board, Hints } from '../../components/RelatiGame';
+import { Board, Hint, Grid } from '../../components/RelatiGame';
 import { Button, ButtonGroup } from '../../components/Button';
 import { MessageBox, MessageBoxConfig } from '../../components/MessageBox';
 import { RelatiGame, RelatiGrid, RelatiSymbolColor } from '../../game';
@@ -19,8 +19,6 @@ class GamePage extends React.Component<any, GamePageState> {
       pathName: '',
       messageBoxConfig: { show: false }
     };
-
-    console.log(this.game);
   }
 
   hideMessageBox() {
@@ -71,11 +69,26 @@ class GamePage extends React.Component<any, GamePageState> {
     } else this.forceUpdate();
   }
 
+  selectCoor({ x, y }: { x: number, y: number }) {
+    return this.selectGrid(this.game.board.getGrid(x, y));
+  }
+
   render() {
     if (this.state.pathName) return <Redirect to={this.state.pathName} />;
 
-    let { game: { board, routeType, nowPlayer: { symbol } } } = this;
-    let placeableGrids = RelatiGame.getPlaceable(board, symbol, routeType);
+    let {
+      board, routeType,
+      board: { width, height },
+      nowPlayer: { symbol }
+    } = this.game;
+
+    let hints = this.game.getPlaceableGrids(symbol).map(
+      ({ x, y }, key) => (
+        <Hint key={key} x={x} y={y} color={RelatiSymbolColor[symbol]} />
+      )
+    );
+
+    let grids = board.grids.map((grid, key) => <Grid key={key} grid={grid} />);
 
     return (
       <Page id="game-page">
@@ -84,8 +97,9 @@ class GamePage extends React.Component<any, GamePageState> {
           <div className="versus"></div>
           <div className="player-x"></div>
         </div>
-        <Board id="game-board" board={board} onGridSelect={grid => this.selectGrid(grid)}>
-          <Hints grids={placeableGrids} color={RelatiSymbolColor[symbol]} />
+        <Board id="game-board" width={width} height={height} onCoorSelect={coor => this.selectCoor(coor)}>
+          <g className="hints">{hints}</g>
+          <g className="grids">{grids}</g>
         </Board>
         <ButtonGroup>
           <Button icon="exit" onClick={e => this.confirmSwitchPathTo('/main')} />

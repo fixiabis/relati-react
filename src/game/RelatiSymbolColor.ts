@@ -1,4 +1,4 @@
-const RelatiSymbolColor = {
+export default {
     "": "#888",
     "O": "crimson",
     "X": "royalblue",
@@ -6,5 +6,3 @@ const RelatiSymbolColor = {
     "R": "seagreen",
     "A": "blueviolet"
 };
-
-export default RelatiSymbolColor;

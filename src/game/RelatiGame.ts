@@ -2,11 +2,13 @@ import RelatiPlayer from "./RelatiPlayer";
 import RelatiRole from "./RelatiRole";
 import { RelatiBoard, RelatiRouteType, RelatiSymbol, RelatiGrid } from "./RelatiDefs";
 import { GridBoard } from "./GridBoard";
-import Router from "./rule/RelatiRouter";
-import Signal from "./rule/RelatiSignal";
+import RelatiSignal from "./RelatiSignal";
+import RelatiRouter from "./RelatiRouter";
 
-class RelatiGame {
+export default class RelatiGame {
     public turn = 0;
+    public signal: RelatiSignal;
+    public router: RelatiRouter;
     public totalPlayer: number;
     public winner: RelatiSymbol | "" | null = null;
     public get nowPlayer() { return this.players[this.turn % 2]; }
@@ -15,7 +17,11 @@ class RelatiGame {
         public players: RelatiPlayer[] = [new RelatiPlayer("O"), new RelatiPlayer("X")],
         public board: RelatiBoard = new GridBoard<RelatiRole>(9, 9),
         public routeType: RelatiRouteType = "common"
-    ) { this.totalPlayer = players.length; }
+    ) {
+        this.totalPlayer = players.length;
+        this.signal = new RelatiSignal(routeType, board);
+        this.router = this.signal.router;
+    }
 
     restart() {
         this.turn = 0;
@@ -31,22 +37,22 @@ class RelatiGame {
         if (this.turn < totalPlayer) {
             role = new RelatiRole(grid, nowPlayer.symbol);
             role.gain("launcher");
-        } else if (RelatiGame.isPlaceable(grid, nowPlayer.symbol, routeType)) {
+        } else if (this.gridIsPlaceable(grid, nowPlayer.symbol)) {
             role = new RelatiRole(grid, nowPlayer.symbol);
             role.gain("receiver");
         } else return;
 
         this.turn++;
         grid.body = role;
-        Signal.interrupt(board);
-        Signal.recovery(board, routeType);
+        this.signal.interrupt();
+        this.signal.recovery();
 
         if (this.turn >= totalPlayer) {
             let playerPlaceable = false;
 
             for (var i = 0; i < totalPlayer; i++) {
                 let player = this.nowPlayer;
-                let hasPlaceableGrid = RelatiGame.hasPlaceable(board, player.symbol, routeType);
+                let hasPlaceableGrid = this.hasPlaceableGrid(player.symbol);
 
                 if (hasPlaceableGrid) {
                     playerPlaceable = true;
@@ -59,13 +65,13 @@ class RelatiGame {
         }
     }
 
-    static isPlaceable(grid: RelatiGrid, symbol: RelatiSymbol, routeType: RelatiRouteType) {
-        return Router.hasRoutes(routeType, grid, symbol, ["launcher", "repeater"]);
+    gridIsPlaceable(grid: RelatiGrid, symbol: RelatiSymbol) {
+        return this.router.hasRoute(grid, symbol, ["launcher", "repeater"]);
     }
 
-    static hasPlaceable(board: RelatiBoard, symbol: RelatiSymbol, routeType: RelatiRouteType) {
-        for (let grid of board.grids) {
-            if (!grid.body && RelatiGame.isPlaceable(grid, symbol, routeType)) {
+    hasPlaceableGrid(symbol: RelatiSymbol) {
+        for (let grid of this.board.grids) {
+            if (!grid.body && this.gridIsPlaceable(grid, symbol)) {
                 return true;
             }
         }
@@ -73,11 +79,11 @@ class RelatiGame {
         return false;
     }
 
-    static getPlaceable(board: RelatiBoard, symbol: RelatiSymbol, routeType: RelatiRouteType) {
+    getPlaceableGrids(symbol: RelatiSymbol) {
         let grids: RelatiGrid[] = [];
 
-        for (let grid of board.grids) {
-            if (!grid.body && RelatiGame.isPlaceable(grid, symbol, routeType)) {
+        for (let grid of this.board.grids) {
+            if (!grid.body && this.gridIsPlaceable(grid, symbol)) {
                 grids.push(grid);
             }
         }
@@ -85,5 +91,3 @@ class RelatiGame {
         return grids;
     }
 }
-
-export default RelatiGame;

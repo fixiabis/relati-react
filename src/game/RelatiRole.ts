@@ -1,6 +1,6 @@
 import { RelatiSymbol, RelatiGrid, RelatiStatus } from "./RelatiDefs";
 
-class RelatiRole {
+export default class RelatiRole {
     /** 狀態存儲 */
     public status: { [status: string]: boolean } = {};
 
@@ -92,5 +92,3 @@ class RelatiRole {
         }
     }
 }
-
-export default RelatiRole;

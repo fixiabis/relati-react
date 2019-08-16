@@ -11,7 +11,7 @@ const SymbolPathMap = {
 function Grid(props: GridProps) {
   let { grid } = props;
 
-  if (!grid.body) return <g></g>;
+  if (!grid.body) return <></>;
 
   let paths = [];
   let x = grid.x * 5 + 2.5;

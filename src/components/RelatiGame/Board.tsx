@@ -1,30 +1,29 @@
 import "./relati-board.scss";
 import React from 'react';
-import Grids from "./Grids";
-import GridLines from './GridLines';
-import { RelatiBoard, RelatiGrid } from '../../game';
 
 type BoardProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > & {
   id: string,
-  board: RelatiBoard,
-  onGridSelect?: (grid: RelatiGrid | null) => void,
-  children?: any
+  width: number,
+  height: number,
+  onCoorSelect?: (coor: { x: number, y: number }) => void
 };
 
 type BoardState = { scaleRatio: number };
 
 class Board extends React.Component<BoardProps, BoardState> {
-  public viewWidth: number;
-  public viewHeight: number;
+  public width: number;
+  public height: number;
 
   constructor(props: BoardProps) {
     super(props);
+
+    this.width = props.width * 5;
+    this.height = props.height * 5;
     this.state = { scaleRatio: 0 };
-    this.viewWidth = props.board.width * 5;
-    this.viewHeight = props.board.height * 5;
+
     window.addEventListener('resize', e => this.resize());
   }
 
@@ -36,43 +35,54 @@ class Board extends React.Component<BoardProps, BoardState> {
     let containerHeight = container.offsetHeight;
 
     let scaleRatio = Math.min(
-      containerWidth / this.viewWidth,
-      containerHeight / this.viewHeight
+      containerWidth / this.width,
+      containerHeight / this.height
     ) * 0.95;
 
     this.setState({ scaleRatio });
   }
 
   onBoardClick(e: React.MouseEvent) {
-    let { board, onGridSelect } = this.props;
+    let { onCoorSelect } = this.props;
     let { offsetX, offsetY } = e.nativeEvent;
     let x = Math.floor(offsetX / 5), y = Math.floor(offsetY / 5);
-    let grid = board.getGrid(x, y);
-    if (onGridSelect) onGridSelect(grid);
-    this.forceUpdate();
+    if (onCoorSelect) onCoorSelect({ x, y });
   }
 
   componentDidMount() { this.resize(); }
 
   render() {
-    let { viewWidth, viewHeight, props } = this;
-    let containerProps = { ...props };
-    delete containerProps.board;
-    delete containerProps.onGridSelect;
+    let { width, height, props, props: { id, children } } = this;
 
     let boardStyle = {
+      width, height,
       transform: `scale(${this.state.scaleRatio})`,
-      width: viewWidth,
-      height: viewHeight
     };
 
+    let horizonLines = [];
+    let verticalLines = [];
+
+    for (let x = 1; x < props.height; x++) {
+      horizonLines.push(
+        <path key={x} stroke="#888" strokeWidth="0.4" d={`M 0 ${x * 5} H ${width}`} />
+      );
+    }
+
+    for (let y = 1; y < props.width; y++) {
+      verticalLines.push(
+        <path key={y} stroke="#888" strokeWidth="0.4" d={`M ${y * 5} 0 V ${height}`} />
+      );
+    }
+
     return (
-      <div className="board-container" {...containerProps}>
+      <div id={id} className="board-container">
         <div className="relati-board" style={boardStyle}>
-          <svg width="45" height="45">
-            <GridLines {...props.board} />
-            <Grids {...props.board} />
-            {this.props.children}
+          <svg width={width} height={height}>
+            <g className="grid-lines">
+              {horizonLines}
+              {verticalLines}
+            </g>
+            {children}
           </svg>
           <div onClick={e => this.onBoardClick(e)}></div>
         </div>

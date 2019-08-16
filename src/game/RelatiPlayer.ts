@@ -1,7 +1,5 @@
 import { RelatiSymbol } from "./RelatiDefs";
 
-class RelatiPlayer {
+export default class RelatiPlayer {
     constructor(public symbol: RelatiSymbol) { }
 }
-
-export default RelatiPlayer;
