@@ -2,9 +2,9 @@ import React from 'react';
 import './App.scss';
 import { Route, HashRouter as Router } from 'react-router-dom';
 
-import { MainPage } from './pages/MainPage';
-import { GamePage } from './pages/GamePage';
-import { HelpPage } from './pages/HelpPage';
+import { MainPage } from './views/MainPage';
+import { GamePage } from './views/GamePage';
+import { HelpPage } from './views/HelpPage';
 
 class App extends React.Component {
   render() {
