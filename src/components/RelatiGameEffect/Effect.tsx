@@ -115,11 +115,11 @@ export default class Effect extends React.Component<EffectProps, EffectState> {
     let grids = this.board.grids.map((grid, key) => {
       let role = this.props.board.grids[key].body;
 
-      if (role && !role.is('repeater')) {
-        if (grid.body) {
+      if (role) {
+        if (!role.is('repeater') && grid.body) {
           grid.body.lost('repeater');
         }
-      }
+      } else delete grid.body;
 
       return <Grid key={key} grid={grid} />
     });
