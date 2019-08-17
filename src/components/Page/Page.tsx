@@ -7,9 +7,7 @@ type PageProps = React.DetailedHTMLProps<
   HTMLDivElement
 >;
 
-function Page({ ...props }: PageProps) {
+export default function Page({ ...props }: PageProps) {
   props.className = classNames(props.className, 'page');
   return <div {...props}></div>;
 }
-
-export default Page;

@@ -78,11 +78,11 @@ class Board extends React.Component<BoardProps, BoardState> {
       <div id={id} className="board-container">
         <div className="relati-board" style={boardStyle}>
           <svg width={width} height={height}>
+            {children}
             <g className="grid-lines">
               {horizonLines}
               {verticalLines}
             </g>
-            {children}
           </svg>
           <div onClick={e => this.onBoardClick(e)}></div>
         </div>

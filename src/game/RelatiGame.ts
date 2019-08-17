@@ -32,7 +32,7 @@ export default class RelatiGame {
     onGridSelect(grid: RelatiGrid | null) {
         if (!grid || grid.body || this.winner) return;
 
-        let role, { nowPlayer, totalPlayer, routeType, board } = this;
+        let role, { nowPlayer, totalPlayer } = this;
 
         if (this.turn < totalPlayer) {
             role = new RelatiRole(grid, nowPlayer.symbol);

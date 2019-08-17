@@ -8,9 +8,7 @@ const SymbolPathMap = {
   'X': 'm -1.5 -1.5, l 3 3, m 0 -3, l -3 3'
 };
 
-function Grid(props: GridProps) {
-  let { grid } = props;
-
+function Grid({ grid }: GridProps) {
   if (!grid.body) return <></>;
 
   let paths = [];
@@ -18,11 +16,11 @@ function Grid(props: GridProps) {
   let y = grid.y * 5 + 2.5;
 
   let symbolProps = {
-    d: `M ${x} ${y}, ${SymbolPathMap[grid.body.symbol as 'O' | 'X']}`,
+    key: '1',
+    fill: 'none',
     strokeWidth: '0.6',
     stroke: RelatiSymbolColor[grid.body.symbol],
-    fill: 'none',
-    key: '1'
+    d: `M ${x} ${y}, ${SymbolPathMap[grid.body.symbol as 'O' | 'X']}`
   };
 
   if (grid.body.is('launcher')) {

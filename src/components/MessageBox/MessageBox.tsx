@@ -6,7 +6,7 @@ import { MessageBoxConfig } from '../MessageBox';
 type MessageBoxProps = MessageBoxConfig;
 type MessageBoxState = MessageBoxConfig & { initiative?: boolean };
 
-class MessageBox extends React.Component<MessageBoxProps, MessageBoxState> {
+export default class MessageBox extends React.Component<MessageBoxProps, MessageBoxState> {
   constructor(props: MessageBoxProps) {
     super(props);
     this.state = { ...props };
@@ -55,5 +55,3 @@ class MessageBox extends React.Component<MessageBoxProps, MessageBoxState> {
     this.props.onUserResponse && this.props.onUserResponse(result);
   }
 }
-
-export default MessageBox;

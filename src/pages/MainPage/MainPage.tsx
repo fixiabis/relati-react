@@ -6,7 +6,7 @@ import { Button, ButtonGroup } from '../../components/Button';
 
 type MainPageState = { pathName: string };
 
-class MainPage extends React.Component<any, MainPageState> {
+export default class MainPage extends React.Component<any, MainPageState> {
   constructor(props: any) {
     super(props);
     this.state = { pathName: "" };
@@ -30,5 +30,3 @@ class MainPage extends React.Component<any, MainPageState> {
     );
   }
 }
-
-export default MainPage;

@@ -2,15 +2,13 @@ import './help-page.scss';
 import React from 'react';
 import { Redirect } from 'react-router';
 import { Page } from '../../components/Page';
-import { Board } from '../../components/RelatiGame';
 import { Button, ButtonGroup } from '../../components/Button';
 import { MessageBox, MessageBoxConfig } from '../../components/MessageBox';
-import { RelatiGame, RelatiRole } from '../../game';
-import { GridBoard } from '../../game/GridBoard';
+import { RelatiGame } from '../../game';
 
 type HelpPageState = { pathName: string, messageBoxConfig: MessageBoxConfig };
 
-class HelpPage extends React.Component<any, HelpPageState> {
+export default class HelpPage extends React.Component<any, HelpPageState> {
   public game = new RelatiGame();
 
   constructor(props: any) {
@@ -51,7 +49,13 @@ class HelpPage extends React.Component<any, HelpPageState> {
     return (
       <Page id="help-page">
         <div className="description">
-          <h2>暫無說明</h2>
+          <h2>遊戲玩法</h2>
+          <p>遊戲開始時，可選擇棋盤上任何空格下子</p>
+          <p>遊戲開始後，只能在棋子連線範圍內下子</p>
+          <p>跨格連線中間經過的格子必須為空格，倘若之後對方下子在空格時，該連線將會失效</p>
+          <p>當原本的連線失效時，棋子將會尋找新的連線方式，若找不到時，該棋子的連線範圍將會失效</p>
+          <p>當連線範圍失效的棋子找到新的連線方式時，該棋子的連線範圍將會恢復</p>
+          <p>當對方無法繼續下子時，即為我方的勝利</p>
         </div>
         <ButtonGroup>
           <Button icon="exit" onClick={() => this.confirmSwitchPathTo('/main')} />
@@ -61,5 +65,3 @@ class HelpPage extends React.Component<any, HelpPageState> {
     );
   }
 }
-
-export default HelpPage;

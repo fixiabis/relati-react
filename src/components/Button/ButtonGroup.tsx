@@ -7,9 +7,7 @@ type ButtonGroupProps = React.DetailedHTMLProps<
   HTMLDivElement
 >;
 
-function ButtonGroup({...props}: ButtonGroupProps) {
+export default function ButtonGroup({...props}: ButtonGroupProps) {
   props.className = classNames(props.className, 'button-group');
   return <div {...props}></div>;
 }
-
-export default ButtonGroup;
