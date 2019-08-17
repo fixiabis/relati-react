@@ -52,7 +52,7 @@ export enum GridDirection {
     /** (x + 2, y + 1) */
     BRR = 0x0120,
     /** (x - 2, y + 1) */
-    BLL = 0x0102
+    BLL = 0x0102,
 }
 
 /**
@@ -67,7 +67,7 @@ export class GridBoard<GridBody> {
     /** 格數 */
     public length: number;
     /** 棋盤格 */
-    public grids: Grid<GridBody>[];
+    public grids: Array<Grid<GridBody>>;
 
     /**
      * 建立棋盤
@@ -82,7 +82,7 @@ export class GridBoard<GridBody> {
 
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
-                let grid = new Grid<GridBody>(x, y, this);
+                const grid = new Grid<GridBody>(x, y, this);
                 this.grids[grid.i] = grid;
             }
         }
@@ -98,9 +98,9 @@ export class GridBoard<GridBody> {
         if (
             x < 0 || x >= this.width ||
             y < 0 || y >= this.height
-        ) return null;
+        ) { return null; }
 
-        let i = x * this.height + y;
+        const i = x * this.height + y;
         return this.grids[i];
     }
 }
@@ -162,15 +162,15 @@ export class Grid<GridBody> {
     public getGrid(f: number, b: number, r: number, l: number): Grid<GridBody> | null;
     public getGrid(f: number, b?: number, r?: number, l?: number): Grid<GridBody> | null {
         if (b === undefined || r === undefined || l === undefined) {
-            let direction = f;
+            const direction = f;
             f = (0xF000 & direction) >> 12;
             b = (0x0F00 & direction) >> 8;
             r = (0x00F0 & direction) >> 4;
             l = (0x000F & direction);
         }
 
-        let x = this.x + r - l;
-        let y = this.y + b - f;
+        const x = this.x + r - l;
+        const y = this.y + b - f;
         return this.board.getGrid(x, y);
     }
 }

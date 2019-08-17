@@ -10,7 +10,7 @@ export default class RelatiSignal {
         public board: RelatiBoard
     ) { this.router = new RelatiRouter(routeType); }
 
-    interrupt() {
+    public interrupt() {
         for (let { body: role } of this.board.grids) {
             if (role) {
                 role.lost("repeater");
@@ -18,7 +18,7 @@ export default class RelatiSignal {
         }
     }
 
-    recovery() {
+    public recovery() {
         for (let { body: role } of this.board.grids) {
             if (role && role.is("launcher")) {
                 this.relati(role);
@@ -26,16 +26,16 @@ export default class RelatiSignal {
         }
     }
 
-    relati(role: RelatiRole) {
-        if (role.is("repeater")) return;
-        role.gain("repeater");
+    public relati(sourceRole: RelatiRole) {
+        if (sourceRole.is("repeater")) return;
+        sourceRole.gain("repeater");
 
         let traces: RelatiGrid[][] = this.router.getRoutes(
-            role.grid, role.symbol, ["receiver"]
+            sourceRole.grid, sourceRole.symbol, ["receiver"]
         );
 
-        for (let [{ body: role }] of traces) {
-            if (role) this.relati(role);
+        for (let [{ body: targetRole }] of traces) {
+            if (targetRole) this.relati(targetRole);
         }
     }
 }

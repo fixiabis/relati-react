@@ -15,16 +15,16 @@ export default class RelatiRole {
      * 判斷是否符合狀態
      * @param statusName 狀態名稱
      */
-    is(statusName: RelatiStatus): boolean;
+    public is(statusName: RelatiStatus): boolean;
 
     /**
      * 判斷是否符合所有狀態或任一狀態
      * @param statusNameList 狀態名稱列表
      * @param matchType 所有狀態 | 任一狀態
      */
-    is(statusNameList: RelatiStatus[], matchType: "all" | "any"): boolean;
+    public is(statusNameList: RelatiStatus[], matchType: "all" | "any"): boolean;
 
-    is(statusName: RelatiStatus | RelatiStatus[], matchType?: "all" | "any") {
+    public is(statusName: RelatiStatus | RelatiStatus[], matchType?: "all" | "any") {
         if (typeof statusName === "string") return this.status[statusName];
 
         let statusNameList = statusName;
@@ -48,15 +48,15 @@ export default class RelatiRole {
      * 獲得狀態
      * @param status 狀態名稱
      */
-    gain(status: RelatiStatus): void;
+    public gain(status: RelatiStatus): void;
 
     /**
      * 獲得多個狀態
      * @param statusNameList 狀態名稱列表
      */
-    gain(statusNameList: RelatiStatus[]): void;
+    public gain(statusNameList: RelatiStatus[]): void;
 
-    gain(statusName: RelatiStatus | RelatiStatus[]) {
+    public gain(statusName: RelatiStatus | RelatiStatus[]) {
         if (typeof statusName === "string") {
             return this.status[statusName] = true;
         }
@@ -72,15 +72,15 @@ export default class RelatiRole {
      * 失去狀態
      * @param status 狀態名稱
      */
-    lost(status: RelatiStatus): void;
+    public lost(status: RelatiStatus): void;
 
     /**
      * 失去多個狀態
      * @param statusNameList 狀態名稱列表
      */
-    lost(statusNameList: RelatiStatus[]): void;
+    public lost(statusNameList: RelatiStatus[]): void;
 
-    lost(statusName: RelatiStatus | RelatiStatus[]) {
+    public lost(statusName: RelatiStatus | RelatiStatus[]) {
         if (typeof statusName === "string") {
             return this.status[statusName] = false;
         }

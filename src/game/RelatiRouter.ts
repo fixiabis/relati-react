@@ -50,7 +50,7 @@ const REMOTE_STABLE_ROUTES = [
 export default class RelatiRouter {
     constructor(public routeType: RelatiRouteType) { }
 
-    hasRoute(grid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
+    public hasRoute(grid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
         if (this.routeType === "common") {
             for (let i = 0; i < 24; i++) {
                 let targetGrid = grid.getGrid(REMOTE_STABLE_ROUTES[i][0]);
@@ -95,7 +95,7 @@ export default class RelatiRouter {
         return false;
     }
 
-    getRoutes(grid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
+    public getRoutes(grid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
         let routes: RelatiGrid[][] = [];
 
         if (this.routeType === "common") {
