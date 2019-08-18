@@ -19,6 +19,11 @@ export default class MessageBox extends React.Component<MessageBoxProps, Message
     this.state = { ...props };
   }
 
+  public userResponse(result: boolean) {
+    this.setState({ show: false, initiative: true });
+    if (this.props.onUserResponse) this.props.onUserResponse(result);
+  }
+
   public render() {
     if (this.state.show === false) return <></>;
 
@@ -54,10 +59,5 @@ export default class MessageBox extends React.Component<MessageBoxProps, Message
         </div>
       </div>
     );
-  }
-
-  public userResponse(result: boolean) {
-    this.setState({ show: false, initiative: true });
-    if (this.props.onUserResponse) this.props.onUserResponse(result);
   }
 }

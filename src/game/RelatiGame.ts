@@ -23,12 +23,17 @@ export default class RelatiGame {
         this.router = this.signal.router;
     }
 
+    /** 重新開始遊戲 */
     public restart() {
         this.turn = 0;
         this.winner = null;
         this.board.grids.forEach((grid: RelatiGrid) => delete grid.body);
     }
 
+    /**
+     * 當棋盤格選取時
+     * @param grid 棋盤格
+     */
     public onGridSelect(grid: RelatiGrid | null) {
         if (!grid || grid.body || this.winner) return;
 
@@ -66,10 +71,19 @@ export default class RelatiGame {
         }
     }
 
+    /**
+     * 判斷棋盤格是否可供放置
+     * @param grid 棋盤格
+     * @param symbol 符號
+     */
     public gridIsPlaceable(grid: RelatiGrid, symbol: RelatiSymbol) {
         return this.router.hasRoute(grid, symbol, ["launcher", "repeater"]);
     }
 
+    /**
+     * 判斷指定符號放置的可行性
+     * @param symbol 符號
+     */
     public hasPlaceableGrid(symbol: RelatiSymbol) {
         for (let grid of this.board.grids) {
             if (!grid.body && this.gridIsPlaceable(grid, symbol)) {
@@ -80,6 +94,10 @@ export default class RelatiGame {
         return false;
     }
 
+    /**
+     * 取得指定符號放置的棋盤格
+     * @param symbol 符號
+     */
     public getPlaceableGrids(symbol: RelatiSymbol) {
         let grids: RelatiGrid[] = [];
 

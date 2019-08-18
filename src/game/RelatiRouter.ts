@@ -7,8 +7,10 @@ let {
     FFR, FFL, BBR, BBL, FRR, FLL, BRR, BLL
 } = GridDirection;
 
+/** 一般連線路徑 */
 const NORMAL_ROUTES = [F, B, R, L, FR, FL, BR, BL];
 
+/** 遠程連線路徑 */
 const REMOTE_NORMAL_ROUTES = [
     [FF, F],
     [BB, B],
@@ -20,6 +22,7 @@ const REMOTE_NORMAL_ROUTES = [
     [BBLL, BL]
 ];
 
+/** 遠程穩定連線路徑 */
 const REMOTE_STABLE_ROUTES = [
     [FFR, FF, F],
     [FFR, FR, F],
@@ -50,6 +53,13 @@ const REMOTE_STABLE_ROUTES = [
 export default class RelatiRouter {
     constructor(public routeType: RelatiRouteType) { }
 
+    /**
+     * 判斷連線路徑是否存在
+     * @param sourceGrid 來源棋盤格
+     * @param symbol 對應符號
+     * @param statusList 狀態參考
+     * @return 是否存在路徑
+     */
     public hasRoute(sourceGrid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
         if (this.routeType === "common") {
             for (let i = 0; i < 24; i++) {
@@ -95,6 +105,13 @@ export default class RelatiRouter {
         return false;
     }
 
+    /**
+     * 取得連線路徑
+     * @param sourceGrid 來源棋盤格
+     * @param symbol 對應符號
+     * @param statusList 狀態參考
+     * @return 所有存在路徑
+     */
     public getRoutes(sourceGrid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
         let routes: RelatiGrid[][] = [];
 
