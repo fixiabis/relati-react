@@ -1,6 +1,6 @@
-import './page.scss';
-import React from 'react';
-import classNames from 'classnames';
+import classNames from "classnames";
+import React from "react";
+import "./page.scss";
 
 type PageProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -8,6 +8,6 @@ type PageProps = React.DetailedHTMLProps<
 >;
 
 export default function Page({ ...props }: PageProps) {
-  props.className = classNames(props.className, 'page');
-  return <div {...props}></div>;
+  props.className = classNames(props.className, "page");
+  return  <div {...props}/>;
 }

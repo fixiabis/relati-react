@@ -1,5 +1,5 @@
+import React from "react";
 import "./relati-board.scss";
-import React from 'react';
 
 type BoardProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -11,9 +11,9 @@ type BoardProps = React.DetailedHTMLProps<
   onCoorSelect?: (coor: { x: number, y: number }) => void
 };
 
-type BoardState = { scaleRatio: number };
+interface BoardState { scaleRatio: number; }
 
-class Board extends React.Component<BoardProps, BoardState> {
+export default class Board extends React.Component<BoardProps, BoardState> {
   public width: number;
   public height: number;
 
@@ -24,10 +24,10 @@ class Board extends React.Component<BoardProps, BoardState> {
     this.height = props.height * 5;
     this.state = { scaleRatio: 0 };
 
-    window.addEventListener('resize', e => this.resize());
+    window.addEventListener("resize", (e) => this.resize());
   }
 
-  resize() {
+  public resize() {
     let container = document.getElementById(this.props.id);
     if (!container) return;
 
@@ -42,21 +42,23 @@ class Board extends React.Component<BoardProps, BoardState> {
     this.setState({ scaleRatio });
   }
 
-  onBoardClick(e: React.MouseEvent) {
+  public onBoardClick(e: React.MouseEvent) {
     let { onCoorSelect } = this.props;
     let { offsetX, offsetY } = e.nativeEvent;
-    let x = Math.floor(offsetX / 5), y = Math.floor(offsetY / 5);
+    let x = Math.floor(offsetX / 5);
+    let y = Math.floor(offsetY / 5);
     if (onCoorSelect) onCoorSelect({ x, y });
   }
 
-  componentDidMount() { this.resize(); }
+  public componentDidMount() { this.resize(); }
 
-  render() {
+  public render() {
     let { width, height, props, props: { id, children } } = this;
 
     let boardStyle = {
-      width, height,
+      height,
       transform: `scale(${this.state.scaleRatio})`,
+      width
     };
 
     let horizonLines = [];
@@ -84,11 +86,9 @@ class Board extends React.Component<BoardProps, BoardState> {
               {verticalLines}
             </g>
           </svg>
-          <div onClick={e => this.onBoardClick(e)}></div>
+          <div onClick={e => this.onBoardClick(e)} />
         </div>
       </div>
     );
   }
 }
-
-export default Board;

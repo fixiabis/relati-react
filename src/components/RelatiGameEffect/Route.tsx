@@ -1,20 +1,20 @@
-import React from 'react';
-import { RelatiGrid, RelatiSymbolColor, RelatiRole } from '../../game';
+import React from "react";
+import { RelatiGrid, RelatiRole, RelatiSymbolColor } from "../../game";
 
-type RouteProps = {
-  grids: RelatiGrid[]
-};
+interface RouteProps {
+  grids: RelatiGrid[];
+}
 
 export default function Route({ grids }: RouteProps) {
   if (!grids[0]) return <></>;
 
   let routeStyle = {
-    fill: 'none',
-    strokeWidth: '0.6',
-    stroke: RelatiSymbolColor[(grids[0].body as RelatiRole).symbol],
     d: `M ${grids.map(({ x, y }) => (
       `${x * 5 + 2.5} ${y * 5 + 2.5}`
-    )).join(', L ')}`
+    )).join(", L ")}`,
+    fill: "none",
+    stroke: RelatiSymbolColor[(grids[0].body as RelatiRole).symbol],
+    strokeWidth: "0.6",
   };
 
   return <path {...routeStyle} />;

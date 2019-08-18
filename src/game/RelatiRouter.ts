@@ -1,5 +1,5 @@
 import { GridDirection } from "./GridBoard";
-import { RelatiStatus, RelatiSymbol, RelatiRouteType, RelatiGrid } from "./RelatiDefs";
+import { RelatiGrid, RelatiRouteType, RelatiStatus, RelatiSymbol } from "./RelatiDefs";
 
 let {
     F, B, R, L, FR, FL, BR, BL,
@@ -50,12 +50,12 @@ const REMOTE_STABLE_ROUTES = [
 export default class RelatiRouter {
     constructor(public routeType: RelatiRouteType) { }
 
-    public hasRoute(grid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
+    public hasRoute(sourceGrid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
         if (this.routeType === "common") {
             for (let i = 0; i < 24; i++) {
-                let targetGrid = grid.getGrid(REMOTE_STABLE_ROUTES[i][0]);
-                let middleGrid1 = grid.getGrid(REMOTE_STABLE_ROUTES[i][1]) as RelatiGrid;
-                let middleGrid2 = grid.getGrid(REMOTE_STABLE_ROUTES[i][2]) as RelatiGrid;
+                let targetGrid = sourceGrid.getGrid(REMOTE_STABLE_ROUTES[i][0]);
+                let middleGrid1 = sourceGrid.getGrid(REMOTE_STABLE_ROUTES[i][1]) as RelatiGrid;
+                let middleGrid2 = sourceGrid.getGrid(REMOTE_STABLE_ROUTES[i][2]) as RelatiGrid;
 
                 if (
                     targetGrid &&
@@ -68,8 +68,8 @@ export default class RelatiRouter {
             }
 
             for (let i = 0; i < 8; i++) {
-                let targetGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][0]);
-                let middleGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][1]) as RelatiGrid;
+                let targetGrid = sourceGrid.getGrid(REMOTE_NORMAL_ROUTES[i][0]);
+                let middleGrid = sourceGrid.getGrid(REMOTE_NORMAL_ROUTES[i][1]) as RelatiGrid;
 
                 if (
                     targetGrid &&
@@ -82,7 +82,7 @@ export default class RelatiRouter {
         }
 
         for (let i = 0; i < 8; i++) {
-            let targetGrid = grid.getGrid(NORMAL_ROUTES[i]);
+            let targetGrid = sourceGrid.getGrid(NORMAL_ROUTES[i]);
 
             if (
                 targetGrid &&
@@ -95,14 +95,14 @@ export default class RelatiRouter {
         return false;
     }
 
-    public getRoutes(grid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
+    public getRoutes(sourceGrid: RelatiGrid, symbol: RelatiSymbol, statusList: RelatiStatus[]) {
         let routes: RelatiGrid[][] = [];
 
         if (this.routeType === "common") {
             for (let i = 0; i < 24; i++) {
-                let targetGrid = grid.getGrid(REMOTE_STABLE_ROUTES[i][0]);
-                let middleGrid1 = grid.getGrid(REMOTE_STABLE_ROUTES[i][1]) as RelatiGrid;
-                let middleGrid2 = grid.getGrid(REMOTE_STABLE_ROUTES[i][2]) as RelatiGrid;
+                let targetGrid = sourceGrid.getGrid(REMOTE_STABLE_ROUTES[i][0]);
+                let middleGrid1 = sourceGrid.getGrid(REMOTE_STABLE_ROUTES[i][1]) as RelatiGrid;
+                let middleGrid2 = sourceGrid.getGrid(REMOTE_STABLE_ROUTES[i][2]) as RelatiGrid;
 
                 if (
                     targetGrid &&
@@ -115,8 +115,8 @@ export default class RelatiRouter {
             }
 
             for (let i = 0; i < 8; i++) {
-                let targetGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][0]);
-                let middleGrid = grid.getGrid(REMOTE_NORMAL_ROUTES[i][1]) as RelatiGrid;
+                let targetGrid = sourceGrid.getGrid(REMOTE_NORMAL_ROUTES[i][0]);
+                let middleGrid = sourceGrid.getGrid(REMOTE_NORMAL_ROUTES[i][1]) as RelatiGrid;
 
                 if (
                     targetGrid &&
@@ -129,7 +129,7 @@ export default class RelatiRouter {
         }
 
         for (let i = 0; i < 8; i++) {
-            let targetGrid = grid.getGrid(NORMAL_ROUTES[i]);
+            let targetGrid = sourceGrid.getGrid(NORMAL_ROUTES[i]);
 
             if (
                 targetGrid &&

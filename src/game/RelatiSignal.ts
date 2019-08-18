@@ -30,11 +30,11 @@ export default class RelatiSignal {
         if (sourceRole.is("repeater")) return;
         sourceRole.gain("repeater");
 
-        let traces: RelatiGrid[][] = this.router.getRoutes(
+        let routes: RelatiGrid[][] = this.router.getRoutes(
             sourceRole.grid, sourceRole.symbol, ["receiver"]
         );
 
-        for (let [{ body: targetRole }] of traces) {
+        for (let [{ body: targetRole }] of routes) {
             if (targetRole) this.relati(targetRole);
         }
     }

@@ -1,9 +1,9 @@
+import { GridBoard } from "./GridBoard";
+import { RelatiBoard, RelatiGrid, RelatiRouteType, RelatiSymbol } from "./RelatiDefs";
 import RelatiPlayer from "./RelatiPlayer";
 import RelatiRole from "./RelatiRole";
-import { RelatiBoard, RelatiRouteType, RelatiSymbol, RelatiGrid } from "./RelatiDefs";
-import { GridBoard } from "./GridBoard";
-import RelatiSignal from "./RelatiSignal";
 import RelatiRouter from "./RelatiRouter";
+import RelatiSignal from "./RelatiSignal";
 
 export default class RelatiGame {
     public turn = 0;

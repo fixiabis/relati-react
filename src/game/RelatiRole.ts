@@ -1,4 +1,4 @@
-import { RelatiSymbol, RelatiGrid, RelatiStatus } from "./RelatiDefs";
+import { RelatiGrid, RelatiStatus, RelatiSymbol } from "./RelatiDefs";
 
 export default class RelatiRole {
     /** 狀態存儲 */

@@ -1,12 +1,12 @@
-import './help-page.scss';
-import React from 'react';
-import { Redirect } from 'react-router';
-import { Page } from '../../components/Page';
-import { Button, ButtonGroup } from '../../components/Button';
-import { MessageBox, MessageBoxConfig } from '../../components/MessageBox';
-import { RelatiGame } from '../../game';
+import React from "react";
+import { Redirect } from "react-router";
+import { Button, ButtonGroup } from "../../components/Button";
+import { MessageBox, MessageBoxConfig } from "../../components/MessageBox";
+import { Page } from "../../components/Page";
+import { RelatiGame } from "../../game";
+import "./help-page.scss";
 
-type HelpPageState = { pathName: string, messageBoxConfig: MessageBoxConfig };
+interface HelpPageState { pathName: string; messageBoxConfig: MessageBoxConfig; }
 
 export default class HelpPage extends React.Component<any, HelpPageState> {
   public game = new RelatiGame();
@@ -15,35 +15,35 @@ export default class HelpPage extends React.Component<any, HelpPageState> {
     super(props);
 
     this.state = {
-      pathName: '',
-      messageBoxConfig: { show: false }
+      messageBoxConfig: { show: false },
+      pathName: ""
     };
   }
 
-  hideMessageBox() {
+  public hideMessageBox() {
     this.setState({ messageBoxConfig: { show: false } });
   }
 
-  confirmSwitchPathTo(pathName: string) {
+  public confirmSwitchPathTo(pathName: string) {
     this.setState({
       messageBoxConfig: {
-        icon: 'yorn',
-        text: '確認離開',
-        show: true,
-        type: 'yorn',
+        icon: "yorn",
         onUserResponse: confirm => {
           if (confirm) this.switchPathTo(pathName);
           else this.hideMessageBox();
-        }
+        },
+        show: true,
+        text: "確認離開",
+        type: "yorn"
       }
     });
   }
 
-  switchPathTo(pathName: string) {
+  public switchPathTo(pathName: string) {
     this.setState({ pathName });
   }
 
-  render() {
+  public render() {
     if (this.state.pathName) return <Redirect to={this.state.pathName} />;
 
     return (
@@ -58,7 +58,7 @@ export default class HelpPage extends React.Component<any, HelpPageState> {
           <p>當對方無法繼續下子時，即為我方的勝利</p>
         </div>
         <ButtonGroup>
-          <Button icon="exit" onClick={() => this.confirmSwitchPathTo('/main')} />
+          <Button icon="exit" onClick={() => this.confirmSwitchPathTo("/main")} />
         </ButtonGroup>
         <MessageBox {...this.state.messageBoxConfig} />
       </Page>

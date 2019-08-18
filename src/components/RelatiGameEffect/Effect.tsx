@@ -1,24 +1,34 @@
-import './effect.scss';
-import React from 'react';
-import { RelatiBoard, RelatiRole, RelatiRouter, RelatiRouteType, RelatiGrid, RelatiSymbol } from '../../game';
-import { GridBoard } from '../../game/GridBoard';
-import Grid from '../RelatiGame/Grid';
-import Route from './Route';
+import React from "react";
+import { RelatiBoard, RelatiGrid, RelatiRole, RelatiRouter, RelatiRouteType, RelatiSymbol } from "../../game";
+import { GridBoard } from "../../game/GridBoard";
+import Grid from "../RelatiGame/Grid";
+import "./effect.scss";
+import Route from "./Route";
 
-type EffectProps = {
-  turn: number,
-  symbol: RelatiSymbol,
-  routeType: RelatiRouteType,
-  board: RelatiBoard
-};
+interface EffectProps {
+  turn: number;
+  symbol: RelatiSymbol;
+  routeType: RelatiRouteType;
+  board: RelatiBoard;
+}
 
-type EffectState = {
-  turn: number,
-  running: boolean,
-  routes: RelatiGrid[][]
-};
+interface EffectState {
+  turn: number;
+  running: boolean;
+  routes: RelatiGrid[][];
+}
 
 export default class Effect extends React.Component<EffectProps, EffectState> {
+
+  public static getDerivedStateFromProps(props: EffectProps, state: EffectState) {
+    if (props.turn !== state.turn) {
+      return {
+        routes: [],
+        running: false,
+        turn: props.turn
+      };
+    } else return null;
+  }
   public board: RelatiBoard;
   public router: RelatiRouter;
 
@@ -26,71 +36,61 @@ export default class Effect extends React.Component<EffectProps, EffectState> {
     super(props);
 
     this.state = {
-      turn: props.turn,
+      routes: [],
       running: false,
-      routes: []
+      turn: props.turn,
     };
 
     this.board = new GridBoard<RelatiRole>(props.board.width, props.board.height);
-    this.router = new RelatiRouter(props.routeType)
+    this.router = new RelatiRouter(props.routeType);
   }
 
-  static getDerivedStateFromProps(props: EffectProps, state: EffectState) {
-    if (props.turn !== state.turn) {
-      return {
-        turn: props.turn,
-        running: false,
-        routes: []
-      };
-    } else return null;
-  }
-
-  recovery(turn: number) {
+  public recovery(turn: number) {
     for (let { body: role } of this.board.grids) {
-      if (role && role.is('launcher')) {
+      if (role && role.is("launcher")) {
         this.relati(role, turn);
       }
     }
   }
 
-  relati(sourceRole: RelatiRole, turn: number, route: RelatiGrid[] = []) {
-    if (sourceRole.is('repeater')) return;
-    sourceRole.gain('repeater');
+  public relati(sourceRole: RelatiRole, turn: number, route: RelatiGrid[] = []) {
+    if (sourceRole.is("repeater")) return;
+    sourceRole.gain("repeater");
 
-    var repeatRelati = () => {
+    let repeatRelati = () => {
       let routes: RelatiGrid[][] = this.router.getRoutes(
-        sourceRole.grid, sourceRole.symbol, ['receiver']
+        sourceRole.grid, sourceRole.symbol, ["receiver"]
       );
 
-      for (let route of routes) {
-        let [{ body: targetRole }] = route;
+      for (let relatiRoute of routes) {
+        let [{ body: targetRole }] = relatiRoute;
 
         if (targetRole) {
-          route = [sourceRole.grid, ...route.reverse()];
-          this.relati(targetRole, turn, route);
+          relatiRoute = [sourceRole.grid, ...relatiRoute.reverse()];
+          this.relati(targetRole, turn, relatiRoute);
         }
       }
     };
 
     if (this.state.turn === turn) {
       this.setState({
-        running: true,
-        routes: [...this.state.routes, route]
+        routes: [...this.state.routes, route],
+        running: true
       });
 
       setTimeout(repeatRelati, 250);
     } else repeatRelati();
   }
 
-  interrupt() {
+  public interrupt() {
     for (let { body: role } of this.board.grids) {
       if (role && role.symbol !== this.props.symbol) {
-        role.lost('repeater');
+        role.lost("repeater");
       }
     }
   }
 
-  cloneBoard() {
+  public cloneBoard() {
     for (let { i, body: role } of this.props.board.grids) {
       let grid = this.board.grids[i];
 
@@ -103,7 +103,7 @@ export default class Effect extends React.Component<EffectProps, EffectState> {
     }
   }
 
-  componentDidUpdate() {
+  public componentDidUpdate() {
     if (!this.state.running) {
       this.cloneBoard();
       this.interrupt();
@@ -111,17 +111,17 @@ export default class Effect extends React.Component<EffectProps, EffectState> {
     }
   }
 
-  render() {
+  public render() {
     let grids = this.board.grids.map((grid, key) => {
       let role = this.props.board.grids[key].body;
 
       if (role) {
-        if (!role.is('repeater') && grid.body) {
-          grid.body.lost('repeater');
+        if (!role.is("repeater") && grid.body) {
+          grid.body.lost("repeater");
         }
       } else delete grid.body;
 
-      return <Grid key={key} grid={grid} />
+      return <Grid key={key} grid={grid} />;
     });
 
     let routes = this.state.routes.map((route, key) => (
@@ -130,8 +130,8 @@ export default class Effect extends React.Component<EffectProps, EffectState> {
 
     return (
       <>
-        <g className='effect-lines'>{routes}</g>
-        <g className='effect-grids'>{grids}</g>
+        <g className="effect-lines">{routes}</g>
+        <g className="effect-grids">{grids}</g>
       </>
     );
   }
