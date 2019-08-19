@@ -10,7 +10,7 @@ import "./game-page.scss";
 
 interface GamePageState { pathName: string; messageBoxConfig: MessageBoxConfig; }
 
-class GamePage extends React.Component<any, GamePageState> {
+export default class GamePage extends React.Component<any, GamePageState> {
   public game = new RelatiGame();
 
   constructor(props: any) {
@@ -110,5 +110,3 @@ class GamePage extends React.Component<any, GamePageState> {
     );
   }
 }
-
-export default GamePage;

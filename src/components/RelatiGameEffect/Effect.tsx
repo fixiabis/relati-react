@@ -19,7 +19,6 @@ interface EffectState {
 }
 
 export default class Effect extends React.Component<EffectProps, EffectState> {
-
   public static getDerivedStateFromProps(props: EffectProps, state: EffectState) {
     if (props.turn !== state.turn) {
       return {
@@ -29,7 +28,9 @@ export default class Effect extends React.Component<EffectProps, EffectState> {
       };
     } else return null;
   }
+
   public board: RelatiBoard;
+  public unmounted: boolean = false;
   public router: RelatiRouter;
 
   constructor(props: EffectProps) {
@@ -72,6 +73,8 @@ export default class Effect extends React.Component<EffectProps, EffectState> {
       }
     };
 
+    if (this.unmounted) return;
+
     if (this.state.turn === turn) {
       this.setState({
         routes: [...this.state.routes, route],
@@ -109,6 +112,14 @@ export default class Effect extends React.Component<EffectProps, EffectState> {
       this.interrupt();
       this.recovery(this.props.turn);
     }
+  }
+
+  public componentWillUnmount() {
+    this.unmounted = true;
+  }
+
+  public componentDidMount() {
+    this.unmounted = false;
   }
 
   public render() {

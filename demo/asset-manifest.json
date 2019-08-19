@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "./static/css/main.c5a99f57.chunk.css",
-    "main.js": "./static/js/main.25dccd7b.chunk.js",
-    "main.js.map": "./static/js/main.25dccd7b.chunk.js.map",
+    "main.css": "./static/css/main.68c0c8d6.chunk.css",
+    "main.js": "./static/js/main.99ea75a9.chunk.js",
+    "main.js.map": "./static/js/main.99ea75a9.chunk.js.map",
     "runtime~main.js": "./static/js/runtime~main.d653cc00.js",
     "runtime~main.js.map": "./static/js/runtime~main.d653cc00.js.map",
-    "static/js/2.c905713c.chunk.js": "./static/js/2.c905713c.chunk.js",
-    "static/js/2.c905713c.chunk.js.map": "./static/js/2.c905713c.chunk.js.map",
+    "static/js/2.9f8a1ce0.chunk.js": "./static/js/2.9f8a1ce0.chunk.js",
+    "static/js/2.9f8a1ce0.chunk.js.map": "./static/js/2.9f8a1ce0.chunk.js.map",
     "index.html": "./index.html",
-    "precache-manifest.fd2c59fc0a4663df4efdf09b81f553c4.js": "./precache-manifest.fd2c59fc0a4663df4efdf09b81f553c4.js",
+    "precache-manifest.6af4ba9edcfa763fd1f758b55cbd1f75.js": "./precache-manifest.6af4ba9edcfa763fd1f758b55cbd1f75.js",
     "service-worker.js": "./service-worker.js",
-    "static/css/main.c5a99f57.chunk.css.map": "./static/css/main.c5a99f57.chunk.css.map",
+    "static/css/main.68c0c8d6.chunk.css.map": "./static/css/main.68c0c8d6.chunk.css.map",
     "static/media/button.scss": "./static/media/verify.806e2b4d.svg",
     "static/media/message-box.scss": "./static/media/yorn.aee67540.svg",
     "static/media/game-page.scss": "./static/media/versus.1aedbaa2.svg"

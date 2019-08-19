@@ -15,6 +15,7 @@
         "no-this-assignment": false,
         "max-classes-per-file": false,
         "no-bitwise": false,
+        "no-console": false,
         "unified-signatures": false
     }
 }
