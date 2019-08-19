@@ -4,6 +4,7 @@
         "tslint-react"
     ],
     "rules": {
+        "jsdoc-format": true,
         "jsx-wrap-multiline": false,
         "prefer-const": false,
         "trailing-comma": false,

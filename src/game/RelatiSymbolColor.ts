@@ -1,9 +1,8 @@
 export default {
     "": "#888",
-    "O": "crimson",
-    "X": "royalblue",
-    // tslint:disable-next-line: object-literal-sort-keys
+    "A": "blueviolet",
     "D": "goldenrod",
+    "O": "crimson",
     "R": "seagreen",
-    "A": "blueviolet"
+    "X": "royalblue"
 };
